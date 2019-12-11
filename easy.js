@@ -111,3 +111,41 @@ console.log(isHappy(19))
 //     [2, 76]
 //   ])
 // )
+
+// O(n) time (using pointers)
+function twoSum (nums, target) {
+  const clone = [...nums]
+  nums.sort((a, b) => a - b)
+
+  let left = 0
+  let right = nums.length - 1
+  while (left < right) {
+    if (nums[left] + nums[right] < target) {
+      left++
+    } else if (nums[left] + nums[right] > target) {
+      right--
+    } else if (nums[left] + nums[right] === target) {
+      return [clone.indexOf(nums[left]), clone.lastIndexOf(nums[right])]
+    }
+  }
+}
+
+console.log(twoSum([3, 2, 4], 6))
+console.log(twoSum([3, 3], 6))
+
+// Space & time O(n) using a hash map
+function twoSumHash (nums, target) {
+  let obj = {}
+  for (let i = 0; i < nums.length; i++) {
+    let remaining = target - nums[i]
+    if (obj[remaining] !== undefined) {
+      return [obj[remaining], i]
+    } else {
+      obj[nums[i]] = i
+    }
+  }
+  return []
+}
+
+console.log(twoSumHash([3, 2, 4], 6))
+console.log(twoSumHash([3, 3], 6))
