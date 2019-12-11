@@ -38,3 +38,130 @@ console.log(
     { startTime: 9, endTime: 10 }
   ])
 )
+
+// reverse array of characters in place by mutation (O(n) time O(1) space)
+function reverse (arr) {
+  // es6 utility function
+  function swap (array, left, right) {
+    ;[arr[left], arr[right]] = [arr[right], arr[left]]
+  }
+  // Using pointers.
+  let left = 0
+  let right = arr.length - 1
+  while (left < right) {
+    // // Or use es5
+    // const temp = arrOfChars[left]
+    // arrOfChars[left] = arrOfChars[right]
+    // arrOFChars[right] = temp
+    swap(arr, left, right)
+    left++
+    right--
+  }
+  return arr
+}
+console.log(reverse(['a', 'b', 'c', 'd']))
+
+function reverseWords (message) {
+  function swap (arr, left, right) {
+    ;[arr[left], arr[right]] = [arr[right], arr[left]]
+  }
+  message = message.join('').split(' ')
+  let leftIdx = 0
+  let rightIdx = message.length - 1
+  while (leftIdx < rightIdx) {
+    swap(message, leftIdx, rightIdx)
+    leftIdx++
+    rightIdx--
+  }
+  return message.join(' ')
+}
+
+const message = [
+  'c',
+  'a',
+  'k',
+  'e',
+  ' ',
+  'p',
+  'o',
+  'u',
+  'n',
+  'd',
+  ' ',
+  's',
+  't',
+  'e',
+  'a',
+  'l'
+]
+
+console.log(reverseWords(message))
+
+// This solution is O(n log n) time
+function mergeArrays (myArray, alicesArray) {
+  return [...myArray, ...alicesArray].sort((a, b) => a - b)
+}
+
+// function mergeArrays2 (myArray, alicesArray) {
+//   let combinedArr = []
+//   let firstLeft = 0
+//   let secondLeft = 0
+//   while (firstLeft + secondLeft < myArray.length + alicesArray.length) {
+//     if (myArray[firstLeft] < alicesArray[secondLeft]) {
+//       combinedArr.push(myArray[firstLeft])
+//       firstLeft++
+//     } else {
+//       combinedArr.push(alicesArray[secondLeft])
+//       secondLeft++
+//     }
+//   }
+//   return combinedArr
+// }
+//
+// This solution is O(n) time using pointers (only works if each array is sorted)
+// Here are some edge cases:
+// One or both of our input arrays is 0 elements or 1 element
+// One of our input arrays is longer than the other.
+// One of our arrays runs out of elements before we're done merging.
+//
+// Complexity = O(n) time and O(n) space
+function mergeArrays2 (myArray, alicesArray) {
+  const mergedArray = []
+
+  let currentIndexAlices = 0
+  let currentIndexMine = 0
+  let currentIndexMerged = 0
+
+  while (currentIndexMerged < myArray.length + alicesArray.length) {
+    const isMyArrayExhausted = currentIndexMine >= myArray.length
+    const isAlicesArrayExhausted = currentIndexAlices >= alicesArray.length
+
+    // Case: next comes from my array
+    // My array must not be exhausted, and EITHER:
+    // 1) Alice's array IS exhausted, or
+    // 2) The current element in my array is less
+    //    than the current element in Alice's array
+    if (
+      !isMyArrayExhausted &&
+      (isAlicesArrayExhausted ||
+        myArray[currentIndexMine] < alicesArray[currentIndexAlices])
+    ) {
+      mergedArray[currentIndexMerged] = myArray[currentIndexMine]
+      currentIndexMine++
+
+      // Case: next comes from Alice's array
+    } else {
+      mergedArray[currentIndexMerged] = alicesArray[currentIndexAlices]
+      currentIndexAlices++
+    }
+
+    currentIndexMerged++
+  }
+  return mergedArray
+}
+
+const myArray = [3, 4, 6, 10, 11, 15]
+const alicesArray = [1, 5, 8, 12, 14, 19]
+
+console.log(mergeArrays(myArray, alicesArray))
+console.log(mergeArrays2(myArray, alicesArray))
