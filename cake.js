@@ -1,3 +1,5 @@
+// O(log n) time and O(n) space
+// sort function causes O(log N)
 function mergeRanges (meetings) {
   // Create a deep copy of the meetings array
   const meetingsCopy = JSON.parse(JSON.stringify(meetings))
@@ -165,3 +167,30 @@ const alicesArray = [1, 5, 8, 12, 14, 19]
 
 console.log(mergeArrays(myArray, alicesArray))
 console.log(mergeArrays2(myArray, alicesArray))
+
+// O(n) time and O(1) space
+function isFirstComeFirstServed (takeOutOrders, dineInOrders, servedOrders) {
+  let takeOutPointer = 0
+  let dineInPointer = 0
+  for (let i = 0; i < servedOrders.length; i++) {
+    if (servedOrders[i] === takeOutOrders[takeOutPointer]) {
+      takeOutPointer++
+    } else if (servedOrders[i] === dineInOrders[dineInPointer]) {
+      dineInPointer++
+    } else {
+      return false
+    }
+  }
+  // Edge case: check for any extra orders at the end of takeOutOrders or dineInOrders that aren't served
+  if (
+    takeOutOrders.length !== takeOutPointer ||
+    dineInOrders.length !== dineInPointer
+  ) {
+    return false
+  }
+  return true
+}
+
+console.log(
+  isFirstComeFirstServed([1, 3, 5, 7], [2, 4, 6], [1, 2, 3, 5, 4, 6, 7])
+)
