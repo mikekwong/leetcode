@@ -22,12 +22,11 @@ function findAverageOfSubarray2 (size, arr) {
   let start = 0
   for (let i = 0; i < arr.length; i++) {
     sum += arr[i] // add the next element
-    console.log(sum)
     // slide the window, we don't need to slide if we've not hit the required window size
     if (i >= size - 1) {
       result.push(sum / size) // calc average
       sum -= arr[start] // subtract element going out
-      start += 1 // slide window ahead
+      start++ // slide window ahead
     }
   }
   return result

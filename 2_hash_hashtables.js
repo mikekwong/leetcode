@@ -1,3 +1,18 @@
+// Hash table, return the indexes where the pair sum to target
+function pairWithTargetSum (arr, targetSum) {
+  const nums = {} // to store numbers and their indices
+  for (let i = 0; i < arr.length; i++) {
+    const num = arr[i]
+    if (targetSum - num in nums) {
+      return [nums[targetSum - num], i]
+    } else {
+      nums[arr[i]] = i
+    }
+  }
+}
+
+console.log(pairWithTargetSum([1, 2, 3, 4, 6], 6))
+
 // Find 2 unique movie lenghts that equal flight length
 // time = O(1)
 // Using sets
